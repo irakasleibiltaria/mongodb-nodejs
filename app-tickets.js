@@ -3,6 +3,7 @@
 // https://runnable.com/node-mongodb-native
 // http://mongodb.github.io/node-mongodb-native/api-generated/collection.html
 // http://docs.mongodb.org/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/
+// http://docs.mongodb.org/manual/reference/command/findAndModify/
 
 // Retrieve
 var MongoClient = require('mongodb').MongoClient;
@@ -36,7 +37,7 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
   db.collection("tickets").remove({}, function(err, result){});
 
   // JSON record
-  var event = {_id:"eventname", description:"event description", address:"address of de event"};
+  var event = {_id:"eventname", type:"event", description:"event description", address:"address of de event"};
 
   // insert record
   db.collection('tickets').insert(event, {w:1}, function(err, result) {
@@ -45,11 +46,11 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
   });
 
   // JSON records
-  var ticket = [{code:"A12", price:5, email:"name@test.com", event_id:"eventname"},
-                {code:"B12", price:5, email:"name2@test.com", event_id:"eventname"},
-                {code:"C12", price:5, email:"name2@test.com", event_id:"eventname"},
-                {code:"D12", price:5, email:"name3@test.com", event_id:"eventname"},
-                {code:"E12", price:5, email:"name3@test.com", event_id:"eventname"}
+  var ticket = [{code:"A12", type:"ticket", price:5, email:"name@test.com", event_id:"eventname"},
+                {code:"B12", type:"ticket", price:5, email:"name2@test.com", event_id:"eventname"},
+                {code:"C12", type:"ticket", price:5, email:"name2@test.com", event_id:"eventname"},
+                {code:"D12", type:"ticket", price:5, email:"name3@test.com", event_id:"eventname"},
+                {code:"E12", type:"ticket", price:5, email:"name3@test.com", event_id:"eventname"}
                 ];
 
   // insert records
@@ -69,22 +70,33 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
     console.dir(docs);
   });
 
-  // find all filter
-  db.collection('tickets').find({event_id:"eventname"}).toArray(function(err, docs) {
-    console.log('eventname tickets:')
+  // find all tickets and return only 'email' field (1: include, 0: exclude)
+  // http://docs.mongodb.org/manual/reference/method/db.collection.find/ (proyection)
+  db.collection('tickets').find({type:"ticket"}, {fields:{email:1, _id:0}}).toArray(function(err, docs) {
+    console.log('-----------tickets email:')
     console.dir(docs);
   });
-
 
   // findone
   db.collection('tickets').findOne({code:'A12'}, function(err, item) {
     console.dir(item);
     console.log("email: " + item.email);
-
-    db.close();
   });
 
+  // findandmodify insert new field
+  db.collection('tickets').findAndModify({code:'A12'}, [], {$set:{"QRcode":"9999"}}, {new:true}, function(err, doc) {
+    console.log("QR:");
+    console.log(doc);
+  });
 
+  // find all tickets that contain QR field
+  // http://docs.mongodb.org/manual/reference/operator/exists/
+  db.collection('tickets').find({type:"ticket", QRcode:{$exists:true}}).toArray(function(err, docs) {
+    console.log('-----------tickets with QR code:')
+    console.dir(docs);
+  });
+
+  // TODO: indexing
 
 });
 
