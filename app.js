@@ -6,8 +6,24 @@
 // Retrieve
 var MongoClient = require('mongodb').MongoClient;
 
+// read user:password from command line : http://nodejs.org/docs/latest/api/process.html#process_process_argv
+// $ node app.js <USER> <PASSWORD> <DATABASE>
+var user
+  , password
+  , database;
+
+process.argv.forEach(function(val, index, array) {
+  user = array[2];
+  password = array[3];
+  database = array[4];
+});
+
+console.log('user:' + user);
+console.log('password:' + password);
+console.log('database:' + database);
+
 // Connect to the db
-MongoClient.connect("mongodb://test:test@ds043168.mongolab.com:43168/astokaka", function(err, db) {
+MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168/'+database, function(err, db) {
   if(err) throw err;
 
   console.log("We are connected");
