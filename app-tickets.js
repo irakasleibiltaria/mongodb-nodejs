@@ -36,7 +36,7 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
   db.collection("tickets").remove({}, function(err, result){});
 
   // JSON record
-  var event = {name:"eventname", description:"event description", address:"address of de event"};
+  var event = {_id:"eventname", description:"event description", address:"address of de event"};
 
   // insert record
   db.collection('tickets').insert(event, {w:1}, function(err, result) {
@@ -45,11 +45,11 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
   });
 
   // JSON records
-  var ticket = [{code:"A12", price:5, email:"name@test.com", event:"eventname"},
-                {code:"B12", price:5, email:"name2@test.com", event:"eventname"},
-                {code:"C12", price:5, email:"name2@test.com", event:"eventname"},
-                {code:"D12", price:5, email:"name3@test.com", event:"eventname"},
-                {code:"E12", price:5, email:"name3@test.com", event:"eventname"}
+  var ticket = [{code:"A12", price:5, email:"name@test.com", event_id:"eventname"},
+                {code:"B12", price:5, email:"name2@test.com", event_id:"eventname"},
+                {code:"C12", price:5, email:"name2@test.com", event_id:"eventname"},
+                {code:"D12", price:5, email:"name3@test.com", event_id:"eventname"},
+                {code:"E12", price:5, email:"name3@test.com", event_id:"eventname"}
                 ];
 
   // insert records
@@ -70,7 +70,7 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
   });
 
   // find all filter
-  db.collection('tickets').find({event:"eventname"}).toArray(function(err, docs) {
+  db.collection('tickets').find({event_id:"eventname"}).toArray(function(err, docs) {
     console.log('eventname tickets:')
     console.dir(docs);
   });
