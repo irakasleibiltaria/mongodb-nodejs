@@ -87,13 +87,6 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
     console.dir(docs);
   });
 
-  // find all distinct emails
-  db.collection('tickets').distinct('email', function(err, docs) {
-    console.log('-----------distinct tickets email:')
-    console.dir(docs);
-  });
-
-
   // findone
   db.collection('tickets').findOne({code:'A12'}, function(err, item) {
     console.dir(item);
