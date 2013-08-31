@@ -49,11 +49,11 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
   });
   db.collection("tickets").remove({}, function(err, result){});
   // JSON records
-  var ticket = [{code:"A12", type:"ticket", price:5, email:"name@test.com", event_id:"eventname"},
-                {code:"B12", type:"ticket", price:5, email:"name2@test.com", event_id:"eventname"},
-                {code:"C12", type:"ticket", price:5, email:"name2@test.com", event_id:"eventname"},
-                {code:"D12", type:"ticket", price:5, email:"name3@test.com", event_id:"eventname"},
-                {code:"E12", type:"ticket", price:5, email:"name3@test.com", event_id:"eventname"}
+  var ticket = [{code:"A12", price:5, email:"name@test.com", event_id:"eventname"},
+                {code:"B12", price:5, email:"name2@test.com", event_id:"eventname"},
+                {code:"C12", price:5, email:"name2@test.com", event_id:"eventname"},
+                {code:"D12", price:5, email:"name3@test.com", event_id:"eventname"},
+                {code:"E12", price:5, email:"name3@test.com", event_id:"eventname"}
                 ];
   // insert records
   db.collection('tickets').insert(ticket, {w:1}, function(err, result) {
