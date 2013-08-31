@@ -106,6 +106,8 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
     console.dir(docs);
   });
 
+  //
+
   // TODO: indexing
 
 });
