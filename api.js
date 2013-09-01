@@ -47,6 +47,22 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
     });
   });
 
+  // return a ticket email
+  app.get('/tickets/:id/email', function(req, res) {
+    // {fields:{email:1, _id:0}}
+    // find one
+    var query = {code:req.params.id};
+    // db.collection('tickets').findOne({code:'XXXX'}, function(err, item) {
+    db.collection('tickets').findOne(query, {fields:{email:1, _id:0}}, function(err, item) {
+      console.log(item);
+      // res.send(item);
+      res.json(item);
+    });
+
+  });
+
+
+
   app.listen(3000);
   console.log('Listening on port 3000...');
 
