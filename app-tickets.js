@@ -61,8 +61,6 @@ MongoClient.connect('mongodb://'+user+':'+password+'@ds043168.mongolab.com:43168
     console.log("event insert:" + result[0]._id);
   });
 
-
-
   // find all
   db.collection('tickets').find().toArray(function(err, docs) {
     console.dir(docs);
